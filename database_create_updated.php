@@ -48,7 +48,7 @@
                 if(isset($_POST["submit"])){
                     $username = $_POST["username"];
                     $password = $_POST["password"];
-                    
+
                     //creating database connection
             
                     $host = "localhost";
@@ -57,6 +57,14 @@
                     $database = "login_details";
                     connectDB($host, $user, $db_password, $database);
                     $message = "";
+                    
+                    $username = mysqli_real_escape_string($connection , $username);
+                    $password = mysqli_real_escape_string($connection , $password);
+                    
+                    $hashFormat = "$2y$10$";
+                    $salt = "iusesomecrazystrings22";
+                    $hashFormat_and_salt = $hashFormat . $salt;
+                    $password = crypt($password, $hashFormat_and_salt);
                     
                     if($connection){
                         
